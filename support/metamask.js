@@ -14,6 +14,7 @@ const {
   notificationPageElements,
   permissionsPageElements,
   confirmPageElements,
+  signaturePageElements,
 } = require('../pages/metamask/notification-page');
 const { setNetwork, getNetwork } = require('./helpers');
 
@@ -41,16 +42,50 @@ module.exports = {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button)
     await puppeteer.changeAccount(number)
   },
-
-  async importMetaMaskWalletUsingPrivateKey(key) {
+  async acceptSignature() {
+    console.log("Accept Signature Called");
+    await puppeteer.metamaskWindow().waitForTimeout(500);
+    await puppeteer.waitAndClick('.transaction-list-item--unconfirmed');
+    await puppeteer.waitAndClick(signaturePageElements.signButton);
+    return true;
+  },
+  async signTypedData(accept) {
+    console.log(`Sign Types Data Called with ${accept ? 'ACCEPT' : 'REJECT'} `);
+    await puppeteer.metamaskWindow().waitForTimeout(500);
+    await puppeteer.waitAndClick('.transaction-list-item--unconfirmed');
+    const button = accept ?
+      signaturePageElements.signTypedDataButtonAccept :
+      signaturePageElements.signTypedDataButtonCancel;
+    await puppeteer.waitAndClick(button);
+    return true;
+  },
+  async importMetaMaskWalletUsingPrivateKey(key, handleDuplicates = false) {
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClickByText('.account-menu__item__text', 'Import Account');
     await puppeteer.waitAndType('#private-key-box', key);
     await puppeteer.metamaskWindow().waitForTimeout(500);
     await puppeteer.waitAndClickByText(mainPageElements.accountMenu.importButton, 'Import');
     await puppeteer.metamaskWindow().waitForTimeout(2000);
+
+    if (handleDuplicates) {
+      let value;
+      try {
+        value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 500, 'innerText');
+      } catch (e) {
+        console.log(`importMetamaskWalletUsingPrivateKey - Error: - ${e}`);
+        // Sink the event because there won't be an error if this is the first
+        // time importing.
+      }
+      const isDuplicate = value && value.indexOf && value.indexOf('duplicate') > -1;
+      if (isDuplicate) {
+        // Its a duplicate, and we've been configured to allow them, so click the cancel
+        // button so the rest of the test can proceed.
+        await puppeteer.waitAndClick('.button.btn-default');
+        return handleDuplicates;
+      }
+    }
     return true;
-},
+  },
 
   async confirmWelcomePage() {
     await module.exports.fixBlankPage();
@@ -220,23 +255,28 @@ module.exports = {
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     return true;
   },
-  async confirmTransaction() {
+  async confirmTransaction(skipGasFee = false) {
     const isKovanTestnet = getNetwork().networkName === 'kovan';
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     const notificationPage = await puppeteer.switchToMetamaskNotification();
-    const currentGasFee = await puppeteer.waitAndGetValue(
-      confirmPageElements.gasFeeInput,
-      notificationPage,
-    );
-    const newGasFee = isKovanTestnet
-      ? '1'
-      : (Number(currentGasFee) + 10).toString();
-    await puppeteer.waitAndSetValue(
-      newGasFee,
-      confirmPageElements.gasFeeInput,
-      notificationPage,
-    );
-    // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
+
+    if (!skipGasFee) {
+      const currentGasFee = await puppeteer.waitAndGetValue(
+        confirmPageElements.gasFeeInput,
+        notificationPage,
+      );
+      const newGasFee = isKovanTestnet
+        ? '1'
+        : (Number(currentGasFee) + 10).toString();
+      await puppeteer.waitAndSetValue(
+        newGasFee,
+        confirmPageElements.gasFeeInput,
+        notificationPage,
+      );
+      // metamask reloads popup after changing a fee, you have to wait for this event otherwise transaction will fail
+      await puppeteer.metamaskWindow().waitForTimeout(3000);
+    }
+
     await puppeteer.metamaskWindow().waitForTimeout(3000);
     await puppeteer.waitAndClick(
       confirmPageElements.confirmButton,

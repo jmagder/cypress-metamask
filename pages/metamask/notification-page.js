@@ -12,7 +12,7 @@ const gasFeeInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-
 const gasLimitInput = `${confirmPageGasFeeSection} .advanced-gas-inputs__gas-edit-row:nth-child(2) .advanced-gas-inputs__gas-edit-row__input`;
 const totalLabel = `${confirmPageContent} div:nth-child(2) > .confirm-detail-row .currency-display-component__text`;
 const rejectButton = `${confirmPageContent} [data-testid="page-container-footer-cancel"]`;
-const confirmButton = `${confirmPageContent} [data-testid="page-container-footer-next"]`;
+const confirmButton = `[data-testid="page-container-footer-next"]`;
 
 module.exports.notificationPageElements = {
   notificationPage,
@@ -35,4 +35,10 @@ module.exports.confirmPageElements = {
   totalLabel,
   rejectButton,
   confirmButton,
+};
+
+module.exports.signaturePageElements = {
+  signButton: '.request-signature__footer__sign-button',
+  signTypedDataButtonCancel: '.signature-request-footer .btn-default',
+  signTypedDataButtonAccept: '.signature-request-footer .btn-primary',
 };

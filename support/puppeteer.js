@@ -75,6 +75,15 @@ module.exports = {
     await page.waitForTimeout(300);
   },
 
+  async waitForWithTimeout(selector, timeout = 500, page = metamaskWindow) {
+    await page.waitForFunction(
+      `document.querySelector('${selector}') && document.querySelector('${selector}').clientHeight != 0`,
+      { visible: true, timeout },
+    );
+    // puppeteer going too fast breaks metamask in corner cases
+    await page.waitForTimeout(300);
+  },
+
   async changeAccount(number, page = metamaskWindow) {
     await page.evaluate(
       ({ number }) => {
@@ -117,6 +126,13 @@ module.exports = {
     const element = await page.$(selector);
     const property = await element.getProperty('value');
     const value = await property.jsonValue();
+    return value;
+  },
+  async waitAndGetPropertyWithTimeout(selector, timeout, property = 'innerText', page = metamaskWindow) {
+    await module.exports.waitForWithTimeout(selector, timeout, page);
+    const element = await page.$(selector);
+    const propertyHandle = await element.getProperty(property);
+    const value = await propertyHandle.jsonValue();
     return value;
   },
   async waitAndSetValue(text, selector, page = metamaskWindow) {

@@ -18,9 +18,9 @@ module.exports = (on, config) => {
     }
 
     if (browser.name === 'electron') {
-      arguments_['width'] = 1920;
-      arguments_['height'] = 1080;
-      arguments_['resizable'] = false;
+      arguments_.preferences['width'] = 1920;
+      arguments_.preferences['height'] = 1080;
+      arguments_.preferences['resizable'] = false;
       return arguments_;
     }
 
@@ -94,9 +94,9 @@ module.exports = (on, config) => {
       const imported = await metamask.importWallet(secretWords, password);
       return imported;
     },
-    async importMetaMaskWalletUsingPrivateKey({ key }) {
+    async importMetaMaskWalletUsingPrivateKey({ key, handleDuplicates }) {
       await puppeteer.switchToMetamaskWindow();
-      const imported = await metamask.importMetaMaskWalletUsingPrivateKey(key);
+      const imported = await metamask.importMetaMaskWalletUsingPrivateKey(key, handleDuplicates);
       await puppeteer.switchToMetamaskWindow();
       return imported
     },
@@ -105,12 +105,7 @@ module.exports = (on, config) => {
       const networkAdded = await metamask.addNetwork(network);
       return networkAdded;
     },
-    async changeMetamaskNetwork(network) {
-      if (process.env.NETWORK_NAME) {
-        network = process.env.NETWORK_NAME;
-      } else {
-        network = 'kovan';
-      }
+    async changeMetamaskNetwork(network = process.env.NETWORK_NAME || 'kovan') {
       const networkChanged = await metamask.changeNetwork(network);
       return networkChanged;
     },
@@ -118,8 +113,8 @@ module.exports = (on, config) => {
       const accepted = await metamask.acceptAccess();
       return accepted;
     },
-    async confirmMetamaskTransaction() {
-      const confirmed = await metamask.confirmTransaction();
+    async confirmMetamaskTransaction({ skipGasFee }) {
+      const confirmed = await metamask.confirmTransaction(skipGasFee);
       return confirmed;
     },
     async rejectMetamaskTransaction() {
@@ -133,8 +128,8 @@ module.exports = (on, config) => {
     async fetchMetamaskWalletAddress() {
       return metamask.walletAddress();
     },
-    async setupMetamask({ secretWords, network, password }) {
-      if (puppeteer.metamaskWindow()) {
+    async setupMetamask({ secretWords, network, password, forceNewSession = false }) {
+      if (!forceNewSession && puppeteer.metamaskWindow()) {
         await puppeteer.switchToCypressWindow();
         return true
       } else {
@@ -157,6 +152,26 @@ module.exports = (on, config) => {
       await metamask.changeAccount(number);
       await puppeteer.switchToCypressWindow();
       return null
+    },
+
+    async acceptSignature() {
+      console.log("plugin Accept Signature");
+      await puppeteer.switchToMetamaskWindow();
+      await puppeteer.metamaskWindow().waitForTimeout(1000);
+      await metamask.acceptSignature();
+      await puppeteer.metamaskWindow().waitForTimeout(500);
+      await puppeteer.switchToCypressWindow();
+      return true;
+    },
+
+    async signTypedData({ accept }) {
+      console.log("Sign Typed Data called");
+      await puppeteer.switchToMetamaskWindow();
+      await puppeteer.metamaskWindow().waitForTimeout(1000);
+      await metamask.signTypedData(accept);
+      await puppeteer.metamaskWindow().waitForTimeout(500);
+      await puppeteer.switchToCypressWindow();
+      return true;
     },
 
     getNetwork() {

@@ -19,8 +19,8 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   'importMetaMaskWalletUsingPrivateKey',
-  (key) => {
-    return cy.task('importMetaMaskWalletUsingPrivateKey', { key });
+  (key, handleDuplicates) => {
+    return cy.task('importMetaMaskWalletUsingPrivateKey', { key, handleDuplicates });
   },
 );
 
@@ -50,8 +50,8 @@ Cypress.Commands.add('acceptMetamaskAccess', () => {
   return cy.task('acceptMetamaskAccess');
 });
 
-Cypress.Commands.add('confirmMetamaskTransaction', () => {
-  return cy.task('confirmMetamaskTransaction');
+Cypress.Commands.add('confirmMetamaskTransaction', (skipGasFee) => {
+  return cy.task('confirmMetamaskTransaction', { skipGasFee });
 });
 
 Cypress.Commands.add('rejectMetamaskTransaction', () => {
@@ -74,8 +74,8 @@ Cypress.Commands.add('fetchMetamaskWalletAddress', () => {
 
 Cypress.Commands.add(
   'setupMetamask',
-  (secretWords, network, password) => {
-    return cy.task('setupMetamask', { secretWords, network, password });
+  (secretWords, network, password, forceNewSession = false) => {
+    return cy.task('setupMetamask', { secretWords, network, password, forceNewSession });
   },
 );
 
@@ -87,5 +87,18 @@ Cypress.Commands.add(
   'changeAccount',
   (number) => {
     return cy.task('changeAccount', { number })
-  })
+  }
+);
+
+Cypress.Commands.add(
+  'acceptSignature', () => {
+    return cy.task('acceptSignature');
+  }
+);
+
+Cypress.Commands.add(
+  'signTypedData', (accept) => {
+    return cy.task('signTypedData', { accept });
+  }
+);
 

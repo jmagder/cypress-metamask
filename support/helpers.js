@@ -80,10 +80,14 @@ module.exports = {
     if (!fs.existsSync(downloadsDirectory)) {
       fs.mkdirSync(downloadsDirectory);
     }
-    const downloadDestination = path.join(downloadsDirectory, release.filename);
-    await module.exports.download(release.downloadUrl, downloadDestination);
-    const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
-    await module.exports.extract(downloadDestination, metamaskDirectory);
-    return metamaskDirectory;
+    try {
+      const downloadDestination = path.join(downloadsDirectory, release.filename);
+      await module.exports.download(release.downloadUrl, downloadDestination);
+      const metamaskDirectory = path.join(downloadsDirectory, 'metamask');
+      await module.exports.extract(downloadDestination, metamaskDirectory);
+      return metamaskDirectory;
+    } catch (e) {
+      console.log(`Exception in prepareMetamask: ${e}`);
+    }
   },
 };
