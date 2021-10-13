@@ -60,6 +60,7 @@ module.exports = {
     return true;
   },
   async importMetaMaskWalletUsingPrivateKey(key, handleDuplicates = false) {
+    console.log(`importMetaMaskWalletUsingPrivateKey - handleDuplicates: ${handleDuplicates}`);
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button);
     await puppeteer.waitAndClickByText('.account-menu__item__text', 'Import Account');
     await puppeteer.waitAndType('#private-key-box', key);
@@ -70,7 +71,7 @@ module.exports = {
     if (handleDuplicates) {
       let value;
       try {
-        value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 500, 'innerText');
+        value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 750, 'innerText');
       } catch (e) {
         console.log(`importMetamaskWalletUsingPrivateKey - Error: - ${e}`);
         // Sink the event because there won't be an error if this is the first

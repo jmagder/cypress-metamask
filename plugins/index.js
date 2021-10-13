@@ -129,6 +129,7 @@ module.exports = (on, config) => {
       return metamask.walletAddress();
     },
     async setupMetamask({ secretWords, network, password, forceNewSession = false }) {
+      console.log(`setupMetamask - forceNewSession: ${forceNewSession}`)
       if (!forceNewSession && puppeteer.metamaskWindow()) {
         await puppeteer.switchToCypressWindow();
         return true
