@@ -135,34 +135,37 @@ module.exports = {
 
 
   async changeNetwork(network) {
-    console.log(`JEFF - changeNetwork ${network}`);
     setNetwork(network);
-    console.log(`JEFF - changeNetwork 2`);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
-      console.log(`JEFF - changeNetwork 3`);
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(0),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Ethereum Mainnet'
       );
     } else if (network === 'ropsten') {
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(1),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Ropsten Test Network'
       );
     } else if (network === 'kovan') {
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(2),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Kovan Test Network'
       );
     } else if (network === 'rinkeby') {
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(3),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Rinkeby Test Network'
       );
     } else if (network === 'goerli') {
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(4),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Goerli Test Network'
       );
     } else if (network === 'localhost') {
-      await puppeteer.waitAndClick(
-        mainPageElements.networkSwitcher.networkButton(5),
+      await puppeteer.waitAndClickByText(
+        mainPageElements.networkSwitcher.dropdownMenuItem,
+        'Localhost 8545'
       );
     } else if (typeof network === 'object') {
       await puppeteer.waitAndClickByText(
