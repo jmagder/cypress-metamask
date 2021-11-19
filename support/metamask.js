@@ -143,37 +143,37 @@ module.exports = {
         'Ethereum Mainnet'
       );
     } else if (network === 'ropsten') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Ropsten Test Network'
       );
     } else if (network === 'kovan') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Kovan Test Network'
       );
     } else if (network === 'rinkeby') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Rinkeby Test Network'
       );
     } else if (network === 'goerli') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Goerli Test Network'
       );
     } else if (network === 'localhost') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Localhost 8545'
       );
     } else if (typeof network === 'object') {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         network.networkName,
       );
     } else {
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         network,
       );

@@ -116,6 +116,20 @@ module.exports = {
     );
   },
 
+  async waitAndClickByPartialText(selector, elementText, page = metamaskWindow) {
+    await module.exports.waitFor(selector, page);
+    await page.evaluate(
+      ({ elementText, selector }) => {
+        const selectors = document.querySelectorAll(selector);
+        const importNode = Array.from(selectors).find(
+          (selector) => selector.innerText && selector.innerText.indexOf(elementText) > -1
+        );
+        importNode.click();
+      },
+      { elementText, selector }
+    );
+  },
+
   async waitAndType(selector, value, page = metamaskWindow) {
     await module.exports.waitFor(selector, page);
     const element = await page.$(selector);
