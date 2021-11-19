@@ -2,8 +2,7 @@ const networkSwitcher = {
   button: '.network-display',
   networkName: '.typography',
   dropdownMenuItem: '.dropdown-menu-item',
-  // networkButton: number => `.network-dropdown-list:nth-child(${3 + number})`,
-  networkButton: number => `.network-dropdown-list .dropdown-menu-item:nth-child(${number})`,
+  networkButton: number => `.menu-droppo .dropdown-menu-item:nth-child(${1 + number})`,
 };
 
 const walletOverview = '.wallet-overview';
