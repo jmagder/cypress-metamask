@@ -299,6 +299,7 @@ module.exports = {
   async getWalletAddress() {
     await puppeteer.waitAndClick(mainPageElements.options.button);
     await puppeteer.waitAndClick(mainPageElements.options.accountDetailsButton);
+    console.log('JEFF: - getWalletAddress()');
     walletAddress = await puppeteer.waitAndGetValue(
       mainPageElements.accountModal.walletAddressInput,
     );

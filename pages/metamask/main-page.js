@@ -46,7 +46,8 @@ const options = {
 };
 
 const accountModal = {
-  walletAddressInput: '.account-modal input',
+  // walletAddressInput: '.account-modal input',
+  walletAddressInput: '.qr-code__address',
   closeButton: '.account-modal__close',
 };
 
