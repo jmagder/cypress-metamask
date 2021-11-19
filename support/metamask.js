@@ -135,9 +135,12 @@ module.exports = {
 
 
   async changeNetwork(network) {
+    console.log(`JEFF - changeNetwork ${network}`);
     setNetwork(network);
+    console.log(`JEFF - changeNetwork 2`);
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
     if (network === 'main' || network === 'mainnet') {
+      console.log(`JEFF - changeNetwork 3`);
       await puppeteer.waitAndClick(
         mainPageElements.networkSwitcher.networkButton(0),
       );
@@ -299,7 +302,6 @@ module.exports = {
   async getWalletAddress() {
     await puppeteer.waitAndClick(mainPageElements.options.button);
     await puppeteer.waitAndClick(mainPageElements.options.accountDetailsButton);
-    console.log('JEFF: - getWalletAddress()');
     walletAddress = await puppeteer.waitAndGetValue(
       mainPageElements.accountModal.walletAddressInput,
     );
