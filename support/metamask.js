@@ -142,9 +142,9 @@ module.exports = {
     console.log("JEFF - 3")
     if (network === 'main' || network === 'mainnet') {
       console.log("JEFF - 4")
-      await puppeteer.waitAndClickByText(
+      await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
-        'Ethereum Mainnet'
+        'Mainnet'
       );
       console.log("JEFF - 5")
     } else if (network === 'ropsten') {
