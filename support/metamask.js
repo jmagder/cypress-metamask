@@ -138,18 +138,13 @@ module.exports = {
 
 
   async changeNetwork(network) {
-    console.log("JEFF - 1")
     setNetwork(network);
-    console.log("JEFF - 2")
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
-    console.log("JEFF - 3")
     if (network === 'main' || network === 'mainnet') {
-      console.log("JEFF - 4")
       await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Mainnet'
       );
-      console.log("JEFF - 5")
     } else if (network === 'ropsten') {
       await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
@@ -199,7 +194,6 @@ module.exports = {
       );
     }
 
-    console.log("JEFF - 6")
     return true;
   },
   async addNetwork(network) {
@@ -321,10 +315,12 @@ module.exports = {
     return walletAddress;
   },
   async initialSetup({ secretWords, network, password }) {
+    console.log("JEFF - 1")
     const isCustomNetwork =
       process.env.NETWORK_NAME && process.env.RPC_URL && process.env.CHAIN_ID;
 
     await puppeteer.init();
+    console.log("JEFF - 2")
     await puppeteer.assignWindows();
     await puppeteer.metamaskWindow().waitForTimeout(1000);
     await puppeteer.metamaskWindow().bringToFront()
@@ -332,20 +328,30 @@ module.exports = {
       (await puppeteer.metamaskWindow().$(unlockPageElements.unlockPage)) ===
       null
     ) {
+      console.log("JEFF - 3")
       await module.exports.confirmWelcomePage();
+      console.log("JEFF - 4")
       await module.exports.importWallet(secretWords, password);
+      console.log("JEFF - 5")
       if (isCustomNetwork) {
         await module.exports.addNetwork(network);
       } else {
         await module.exports.changeNetwork(network);
       }
+      console.log("JEFF - 6")
       walletAddress = await module.exports.getWalletAddress();
+      console.log("JEFF - 7")
       await puppeteer.switchToCypressWindow();
+      console.log("JEFF - 8")
       return true;
     } else {
+      console.log("JEFF - 9")
       await module.exports.unlock(password);
+      console.log("JEFF - 10")
       walletAddress = await module.exports.getWalletAddress();
+      console.log("JEFF - 11")
       await puppeteer.switchToCypressWindow();
+      console.log("JEFF - 12")
       return true;
     }
   },
