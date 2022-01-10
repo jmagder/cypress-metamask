@@ -68,33 +68,23 @@ module.exports = {
     await puppeteer.waitAndClickByText(mainPageElements.accountMenu.importButton, 'Import');
     await puppeteer.metamaskWindow().waitForTimeout(2000);
 
-    console.log(`JEFF - ${handleDuplicates}`)
-
     if (handleDuplicates) {
       let value;
       try {
-        console.log(`JEFF - 1`)
         value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 1000, 'innerText');
-        console.log(`JEFF - 2`)
       } catch (e) {
-        console.log(`JEFF - 3`)
         console.log(`importMetamaskWalletUsingPrivateKey - Error: - ${e}`);
         // Sink the event because there won't be an error if this is the first
         // time importing.
       }
-      console.log(`JEFF - 4`)
       const isDuplicate = value && value.indexOf && value.indexOf('duplicate') > -1;
-      console.log(`JEFF - 5 - duplicate : ${isDuplicate}`);
       if (isDuplicate) {
-        console.log(`JEFF - 6`)
         // Its a duplicate, and we've been configured to allow them, so click the cancel
         // button so the rest of the test can proceed.
         await puppeteer.waitAndClickByText(mainPageElements.accountMenu.importButton, 'Cancel');
-        console.log(`JEFF - 7`)
         return handleDuplicates;
       }
     }
-    console.log(`JEFF - 8`)
     return true;
   },
 
@@ -145,13 +135,18 @@ module.exports = {
 
 
   async changeNetwork(network) {
+    console.log("JEFF - 1")
     setNetwork(network);
+    console.log("JEFF - 2")
     await puppeteer.waitAndClick(mainPageElements.networkSwitcher.button);
+    console.log("JEFF - 3")
     if (network === 'main' || network === 'mainnet') {
+      console.log("JEFF - 4")
       await puppeteer.waitAndClickByText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
         'Ethereum Mainnet'
       );
+      console.log("JEFF - 5")
     } else if (network === 'ropsten') {
       await puppeteer.waitAndClickByPartialText(
         mainPageElements.networkSwitcher.dropdownMenuItem,
@@ -201,6 +196,7 @@ module.exports = {
       );
     }
 
+    console.log("JEFF - 6")
     return true;
   },
   async addNetwork(network) {
