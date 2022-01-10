@@ -151,8 +151,10 @@ module.exports = (on, config) => {
     async changeAccount(number) {
       console.log("JEFF - changeAccount 2 - 1")
       await puppeteer.switchToMetamaskWindow();
+      await puppeteer.metamaskWindow().waitForTimeout(1000);
       console.log("JEFF - changeAccount 2 - 2")
       await metamask.changeAccount(number);
+      await puppeteer.metamaskWindow().waitForTimeout(500);
       console.log("JEFF - changeAccount 2 - 3")
       await puppeteer.switchToCypressWindow();
       console.log("JEFF - changeAccount 2 - 4")
