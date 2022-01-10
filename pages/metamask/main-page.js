@@ -19,7 +19,7 @@ const accountMenu = {
   secondAccount: '.account-menu__accounts:nth-child(2)',
   accountsSelector: '.account-menu__name',
   importAccount: '.account-menu__item account-menu__item--clickable',
-  importButton: '.new-account-import-form__buttons',
+  importButton: '.new-account-create-form__button'
 };
 
 const settingsPage = {
