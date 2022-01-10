@@ -85,10 +85,14 @@ module.exports = {
   },
 
   async changeAccount(number, page = metamaskWindow) {
+    console.log(`JEFF -  1 changeAccount number: ${number}`)
     await page.evaluate(
       ({ number }) => {
+        console.log(`JEFF - 2 changeAccount number: ${number}`)
         const selector = document.querySelector('.account-menu__accounts').children[number.number - 1]
+        console.log(`JEFF - 3 changeaccount SELECTOR ${selector}`)
         selector.click()
+        console.log("JEFF - changeAccount 4")
       },
       { number }
     )

@@ -39,7 +39,7 @@ module.exports = {
     }
   },
   async changeAccount(number) {
-    console.log("JEFF - changeAccount 1")
+    console.log(`JEFF - changeAccount 1 - Number ${number}`)
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button)
     console.log("JEFF - changeAccount 2")
     await puppeteer.changeAccount(number)
