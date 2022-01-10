@@ -129,11 +129,14 @@ module.exports = (on, config) => {
       return metamask.walletAddress();
     },
     async setupMetamask({ secretWords, network, password, forceNewSession = false }) {
-      console.log(`setupMetamask - forceNewSession: ${forceNewSession}`)
+      console.log(`JEFF !!!! - setupMetamask - forceNewSession: ${forceNewSession}`)
       if (!forceNewSession && puppeteer.metamaskWindow()) {
+        console.log("JEFF - Setupmetamask - 1")
         await puppeteer.switchToCypressWindow();
+        console.log("JEFF - Setupmetamask - 2")
         return true
       } else {
+        console.log("JEFF - Setupmetamask - 3")
         if (process.env.NETWORK_NAME) {
           network = process.env.NETWORK_NAME;
         }
@@ -143,13 +146,15 @@ module.exports = (on, config) => {
         if (process.env.PASSWORD) {
           password = process.env.PASSWORD;
         }
+        console.log("JEFF - Setupmetamask - 5");
         await metamask.initialSetup({ secretWords, network, password });
+        console.log("JEFF - Setupmetamask - 6");
         return true;
       }
     },
 
     async changeAccount(number) {
-      console.log(`JEFF - plugins.index.changeAccount 2 - 1 - requested number: ${number}`)
+      console.log(`JEFF - plugins.index.changeAccount 2 - 1 - requested number: ${number.number}`)
       await puppeteer.switchToMetamaskWindow();
       await puppeteer.metamaskWindow().waitForTimeout(1000);
       console.log("JEFF - changeAccount 2 - 2")
