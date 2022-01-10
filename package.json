@@ -29,10 +29,10 @@
   },
   "dependencies": {
     "cross-zip": "^4.0.0",
-    "cypress": "^7.3.0",
+    "cypress": "9.2.1",
     "dotenv": "^9.0.2",
     "eslint-plugin-cypress": "^2.11.3",
-    "ethers": "^5.1.4",
+    "ethers": "^5.4.7",
     "node-fetch": "^2.6.1",
     "puppeteer-core": "^9.1.1",
     "standard": "^16.0.3",
