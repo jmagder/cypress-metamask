@@ -149,9 +149,13 @@ module.exports = (on, config) => {
     },
 
     async changeAccount(number) {
+      console.log("JEFF - changeAccount 2 - 1")
       await puppeteer.switchToMetamaskWindow();
+      console.log("JEFF - changeAccount 2 - 2")
       await metamask.changeAccount(number);
+      console.log("JEFF - changeAccount 2 - 3")
       await puppeteer.switchToCypressWindow();
+      console.log("JEFF - changeAccount 2 - 4")
       return null
     },
 

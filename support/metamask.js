@@ -39,8 +39,11 @@ module.exports = {
     }
   },
   async changeAccount(number) {
+    console.log("JEFF - changeAccount 1")
     await puppeteer.waitAndClick(mainPageElements.accountMenu.button)
+    console.log("JEFF - changeAccount 2")
     await puppeteer.changeAccount(number)
+    console.log("JEFF - changeAccount 3")
   },
   async acceptSignature() {
     console.log("Accept Signature Called");
