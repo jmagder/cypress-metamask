@@ -149,7 +149,7 @@ module.exports = (on, config) => {
     },
 
     async changeAccount(number) {
-      console.log("JEFF - changeAccount 2 - 1")
+      console.log(`JEFF - plugins.index.changeAccount 2 - 1 - requested number: ${number}`)
       await puppeteer.switchToMetamaskWindow();
       await puppeteer.metamaskWindow().waitForTimeout(1000);
       console.log("JEFF - changeAccount 2 - 2")
