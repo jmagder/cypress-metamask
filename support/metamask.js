@@ -68,23 +68,33 @@ module.exports = {
     await puppeteer.waitAndClickByText(mainPageElements.accountMenu.importButton, 'Import');
     await puppeteer.metamaskWindow().waitForTimeout(2000);
 
+    console.log(`JEFF - ${handleDuplicates}`)
+
     if (handleDuplicates) {
       let value;
       try {
-        value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 750, 'innerText');
+        console.log(`JEFF - 1`)
+        value = await puppeteer.waitAndGetPropertyWithTimeout('span.error', 1000, 'innerText');
+        console.log(`JEFF - 2`)
       } catch (e) {
+        console.log(`JEFF - 3`)
         console.log(`importMetamaskWalletUsingPrivateKey - Error: - ${e}`);
         // Sink the event because there won't be an error if this is the first
         // time importing.
       }
+      console.log(`JEFF - 4`)
       const isDuplicate = value && value.indexOf && value.indexOf('duplicate') > -1;
+      console.log(`JEFF - 5 - duplicate : ${isDuplicate}`);
       if (isDuplicate) {
+        console.log(`JEFF - 6`)
         // Its a duplicate, and we've been configured to allow them, so click the cancel
         // button so the rest of the test can proceed.
         await puppeteer.waitAndClick('.button.btn-default');
+        console.log(`JEFF - 7`)
         return handleDuplicates;
       }
     }
+    console.log(`JEFF - 8`)
     return true;
   },
 
