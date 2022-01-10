@@ -89,7 +89,7 @@ module.exports = {
         console.log(`JEFF - 6`)
         // Its a duplicate, and we've been configured to allow them, so click the cancel
         // button so the rest of the test can proceed.
-        await puppeteer.waitAndClick('.button.btn-default');
+        await puppeteer.waitAndClickByText(mainPageElements.accountMenu.importButton, 'Cancel');
         console.log(`JEFF - 7`)
         return handleDuplicates;
       }
